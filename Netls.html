@@ -43,17 +43,42 @@
   <div class="island"></div>
   <div class="status"><span id="clock">19:27</span><span>Netls • 5G</span><span>100% ▮</span></div>
 
-  <!-- SPLASH -->
-  <div class="splash" id="splash">
-    <div class="logo">
-      <svg width="58" height="58" viewBox="0 0 24 24" fill="white"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-    </div>
-    <h1 style="font-size:32px;margin:20px 0 8px">Netls</h1>
-    <p style="color:var(--muted)">selamat datang di website Netls</p>
-    <p style="font-size:14px;line-height:1.5;color:var(--muted)">Kelola link TikTok, YouTube & Instagram kamu<br>dengan tampilan iPhone yang clean.</p>
-    <button onclick="enterApp()" style="margin-top:24px;width:100%;padding:16px;border-radius:16px;background:#000;color:#fff;font-weight:800;border:0;cursor:pointer">Lanjut ke Halaman →</button>
-    <p style="font-size:12px;color:var(--muted)">v1.0 • Dibuat untuk iPhone, Android & Desktop</p>
+<!-- GANTI LINK INI DENGAN LINK LANGSUNG DARI IBB -->
+<!-- Contoh: https://i.ibb.co/xxxx/banner-netls.jpg -->
+
+<!-- 1. SPLASH - Banner jadi background -->
+<div class="splash" id="splash" style="padding:0; overflow:hidden">
+  <img src="https://ibb.co.com/9mph2yYd" 
+       alt="Banner Netls"
+       style="width:100%; height:100%; object-fit:cover; position:absolute; inset:0;">
+  
+  <!-- Overlay biar teks kebaca -->
+  <div style="position:relative; z-index:2; background:linear-gradient(to top, rgba(0,0,0,.85), transparent 60%); width:100%; height:100%; display:flex; flex-direction:column; justify-content:flex-end; padding:30px; text-align:left; color:white">
+    
+    <!-- Logo SVG Netls di atas banner -->
+    <svg width="52" height="52" viewBox="0 0 24 24" fill="white"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+    <h1 style="font-size:32px; margin:14px 0 4px">Netls</h1>
+    <p style="margin:0; opacity:.9">selamat datang di website Netls</p>
+    
+    <button onclick="enterApp()" style="margin-top:20px; width:100%; padding:16px; border-radius:16px; background:#fff; color:#000; font-weight:800; border:0; cursor:pointer">Lanjut ke Halaman →</button>
   </div>
+</div>
+
+<!-- 2. HERO DI HOME - Banner jadi kartu -->
+<div class="hero" style="padding:0; overflow:hidden; height:170px; position:relative">
+  <img src="https://ibb.co.com/9mph2yYd"
+       alt="Banner Netls"
+       style="width:100%; height:100%; object-fit:cover; display:block;">
+  <div style="position:absolute; inset:0; background:linear-gradient(to top, rgba(0,0,0,.75), transparent); display:flex; flex-direction:column; justify-content:flex-end; padding:16px; color:white">
+    <h2 style="margin:0; font-size:20px">Netls Official</h2>
+    <p style="margin:2px 0 0; font-size:13px; opacity:.8">TikTok • YouTube • Instagram</p>
+  </div>
+</div>
+
+<!-- 3. README.MD - Pasang banner di atas -->
+<!--
+![Banner Netls](://i.https://ibb.co.com/9mph2yYd)
+-->
 
   <div class="top">
     <h1>Netls</h1>
