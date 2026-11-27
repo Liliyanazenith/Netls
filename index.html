@@ -2,35 +2,67 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Netls</title>
 <style>
-  :root{ --bg:#f2f2f7; --card:#ffffff; --text:#000; --muted:#8e8e93; --accent:#000; --line:#e5e5ea; --fs:16px; }
+  :root{ --bg:#f2f2f7; --card:#ffffff; --text:#000; --muted:#8e8e93; --accent:#000; --line:#e5e5ea; }
   [data-theme="dark"]{ --bg:#000; --card:#1c1c1e; --text:#fff; --muted:#98989f; --accent:#fff; --line:#2c2c2e; }
   *{box-sizing:border-box; font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",system-ui,sans-serif; -webkit-tap-highlight-color:transparent}
-  html,body{margin:0;padding:0;width:100%;height:100%;background:#000;overflow:hidden}
-  body{display:flex;justify-content:center;min-height:100vh;min-height:100dvh;font-size:var(--fs)}
-  /* FULLSCREEN MODE */
-  .phone{width:100%;max-width:430px;min-height:100vh;min-height:100dvh;background:var(--bg);color:var(--text);position:relative;overflow-y:auto;overflow-x:hidden}
-  /* Di laptop tetap keliatan hp, di fullscreen / HP jadi full */
+  html,body{margin:0;padding:0;width:100%;height:100%;background:#0a0a0a;overflow:hidden}
+  body{display:flex;justify-content:center;min-height:100vh;min-height:100dvh}
+
+  /* ===== MODE DEVICE - INI SATU-SATUNYA YANG BERUBAH PAS GANTI MODE ===== */
+  .phone{width:100%;max-width:430px;min-height:100vh;min-height:100dvh;background:var(--bg);color:var(--text);position:relative;overflow-y:auto;overflow-x:hidden;transition:all .35s}
+
+  /* MODE IPHONE - default, persis kaya screenshot lu */
+  body[data-device="iphone"] .phone{max-width:430px}
+  body[data-device="iphone"] .island{display:block}
+  body[data-device="iphone"] .punch{display:none}
+  body[data-device="iphone"] .status{padding:8px 28px 0}
   @media(min-width:500px){
-    body:not(.is-full) .phone{height:860px;min-height:0;margin:20px 0;border-radius:55px;border:10px solid #111;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+    body[data-device="iphone"]:not(.is-full) .phone{height:860px;min-height:0;margin:20px 0;border-radius:55px;border:10px solid #111;box-shadow:0 30px 80px rgba(0,0,0,.6)}
   }
-  body.is-full .phone{max-width:100%;height:100vh;height:100dvh;margin:0;border:0;border-radius:0;box-shadow:none}
-  body.is-full .island{display:none}
-  .island{width:120px;height:28px;background:#000;border-radius:20px;margin:12px auto 0}
-  .status{display:flex;justify-content:space-between;padding:8px 28px 0;font-size:13px;font-weight:600}
+
+  /* MODE ANDROID - sama persis, cuma frame beda: tanpa island, ada punch hole kamera */
+  body[data-device="android"] .phone{max-width:430px}
+  body[data-device="android"] .island{display:none}
+  body[data-device="android"] .punch{display:block}
+  body[data-device="android"] .status{padding:12px 28px 0}
+  @media(min-width:500px){
+    body[data-device="android"]:not(.is-full) .phone{height:860px;min-height:0;margin:20px 0;border-radius:32px;border:6px solid #1c1c1e;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+  }
+
+  /* MODE DESKTOP / LAPTOP - full lebar, tampilan web laptop */
+  body[data-device="desktop"] .phone{max-width:1100px}
+  body[data-device="desktop"] .island{display:none}
+  body[data-device="desktop"] .punch{display:none}
+  body[data-device="desktop"] .status{display:none}
+  body[data-device="desktop"] .hero{height:260px}
+  body[data-device="desktop"] .top h1{font-size:32px}
+  @media(min-width:500px){
+    body[data-device="desktop"]:not(.is-full) .phone{height:auto;min-height:100vh;margin:0;border-radius:0;border:0;box-shadow:none}
+  }
+  body[data-device="desktop"] .tabs{max-width:800px;margin:0 auto}
+  body[data-device="desktop"] .card{max-width:800px;margin:0 auto}
+  body[data-device="desktop"] .result{max-width:800px;margin:14px auto}
+  body[data-device="desktop"] .collection{max-width:800px;margin:0 auto}
+  body[data-device="desktop"] h3{max-width:800px;margin:20px auto 10px}
+
+  /* FULL SCREEN - nutupin semua mode di atas */
+  body.is-full .phone{max-width:100% !important;height:100vh;height:100dvh;margin:0 !important;border:0 !important;border-radius:0 !important;box-shadow:none !important}
+  body.is-full .island, body.is-full .punch{display:none}
   body.is-full .status{padding-top:env(safe-area-inset-top,12px)}
+
+  .island{width:120px;height:28px;background:#000;border-radius:20px;margin:12px auto 0}
+  .punch{width:18px;height:18px;background:#000;border-radius:50%;margin:12px auto 0;display:none}
+  .status{display:flex;justify-content:space-between;padding:8px 28px 0;font-size:13px;font-weight:600}
   .splash{position:absolute;inset:0;background:var(--bg);z-index:20;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0;transition:.5s;overflow:hidden}
   .splash.hide{opacity:0;pointer-events:none;transform:scale(1.05)}
   .top{display:flex;justify-content:space-between;align-items:center;padding:18px 20px 5px}
   .top h1{font-size:28px;margin:0;letter-spacing:-.5px}
-  .icon-btn{width:42px;height:42px;border-radius:50%;background:var(--card);border:1px solid var(--line);display:grid;place-items:center;cursor:pointer;color:var(--text)}
+  .icon-btn{width:42px;height:42px;border-radius:50%;background:var(--card);border:1px solid var(--line);display:grid;place-items:center;cursor:pointer;color:var(--text);font-size:18px}
   .hero{margin:14px 20px;background:#000;color:#fff;border-radius:24px;padding:0;position:relative;overflow:hidden;height:170px}
-  body.is-full .hero{height:200px}
   .hero h2{margin:0 0 6px;font-size:22px}
   .hero p{margin:0;opacity:.7;font-size:14px}
   .tabs{display:flex;gap:10px;padding:10px 20px}
@@ -39,7 +71,7 @@
   .tab svg{width:28px;height:28px}
   .tab p{margin:8px 0 0;font-weight:700;font-size:13px}
   .card{margin:0 20px;background:var(--card);border:1px solid var(--line);border-radius:24px;padding:18px}
-  input{width:100%;padding:14px;border-radius:14px;border:1px solid var(--line);background:var(--bg);color:var(--text);outline:none;font-size:var(--fs)}
+  input{width:100%;padding:14px;border-radius:14px;border:1px solid var(--line);background:var(--bg);color:var(--text);outline:none}
   .btn{width:100%;margin-top:12px;padding:15px;border:0;border-radius:14px;background:#000;color:#fff;font-weight:700;cursor:pointer;display:block;text-align:center;text-decoration:none}
   .btn2{display:flex;gap:10px;margin-top:10px}
   .btn2 button{flex:1;padding:12px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--text);font-weight:600;cursor:pointer}
@@ -48,10 +80,10 @@
   .collection{padding:0 20px}
   .item{display:flex;gap:10px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px;margin-bottom:10px}
 
-  /* SETTING SHEET */
+  /* SETTING - SHEET DARI BAWAH */
   .overlay{position:absolute;inset:0;background:rgba(0,0,0,.5);z-index:30;opacity:0;pointer-events:none;transition:.3s}
   .overlay.show{opacity:1;pointer-events:auto}
-  .sheet{position:absolute;left:0;right:0;bottom:0;background:var(--card);color:var(--text);border-radius:24px 24px 0 0;padding:8px 20px 24px;z-index:31;transform:translateY(100%);transition:.35s;max-height:85%;overflow-y:auto}
+  .sheet{position:absolute;left:0;right:0;bottom:0;background:var(--card);color:var(--text);border-radius:24px 24px 0 0;padding:8px 20px 26px;z-index:31;transform:translateY(100%);transition:.35s;max-height:88%;overflow-y:auto}
   .sheet.show{transform:translateY(0)}
   .grab{width:40px;height:5px;background:var(--line);border-radius:10px;margin:8px auto 16px}
   .set-row{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}
@@ -63,17 +95,18 @@
   .switch.on{background:#34c759}
   .switch.on::after{left:24px}
   .seg{display:flex;background:var(--bg);border-radius:12px;padding:4px;gap:4px}
-  .seg button{flex:1;border:0;background:transparent;padding:9px;border-radius:9px;cursor:pointer;color:var(--text);font-weight:600}
+  .seg button{flex:1;border:0;background:transparent;padding:10px 6px;border-radius:9px;cursor:pointer;color:var(--text);font-weight:600;font-size:13px}
   .seg button.active{background:var(--card);box-shadow:0 1px 4px rgba(0,0,0,.15)}
   .danger{width:100%;padding:13px;border-radius:13px;border:0;background:#ff3b30;color:#fff;font-weight:700;cursor:pointer;margin-top:14px}
 </style>
 </head>
-<body>
+<body data-device="iphone">
 <div class="phone" id="app" data-theme="light">
   <div class="island"></div>
+  <div class="punch"></div>
   <div class="status"><span id="clock">19:27</span><span>Netls • 5G</span><span id="fsLabel">100% ▮</span></div>
 
-  <!-- SPLASH -->
+  <!-- SPLASH - BANNER DIPERBAIKI, TAMPILAN SAMA -->
   <div class="splash" id="splash">
     <img src="banner.jpg" alt="Banner Netls" onerror="this.style.display='none'" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
     <div style="position:relative;z-index:2;background:linear-gradient(to top, rgba(0,0,0,.85), transparent 60%);width:100%;height:100%;display:flex;flex-direction:column;justify-content:flex-end;padding:30px;text-align:left;color:white">
@@ -92,7 +125,7 @@
     </div>
   </div>
 
-  <!-- HERO -->
+  <!-- HERO - BANNER DIPERBAIKI, TAMPILAN SAMA -->
   <div class="hero">
     <img src="banner.jpg" alt="Banner Netls" onerror="this.style.display='none'" style="width:100%;height:100%;object-fit:cover;display:block;">
     <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,.75), transparent);display:flex;flex-direction:column;justify-content:flex-end;padding:16px;color:white">
@@ -133,64 +166,66 @@
   <div class="collection" id="list"></div>
   <div class="home-ind"></div>
 
-  <!-- SETTING SHEET -->
+  <!-- MENU SETTING - BARU, CUMA INI YANG DITAMBAH -->
   <div class="overlay" id="overlay" onclick="closeSettings()"></div>
   <div class="sheet" id="sheet">
     <div class="grab"></div>
-    <div style="display:flex;justify-content:space-between;align-items:center"><h2 style="margin:0">Setting</h2><button onclick="closeSettings()" style="border:0;background:var(--bg);width:32px;height:32px;border-radius:50%;cursor:pointer">✕</button></div>
-    <p style="color:var(--muted);font-size:13px;margin:6px 0 10px">Atur tampilan & perilaku Netls</p>
+    <div style="display:flex;justify-content:space-between;align-items:center"><h2 style="margin:0">Setting</h2><button onclick="closeSettings()" style="border:0;background:var(--bg);width:32px;height:32px;border-radius:50%;cursor:pointer;color:var(--text)">✕</button></div>
+    <p style="color:var(--muted);font-size:13px;margin:6px 0 10px">Atur tampilan Netls. Semua tersimpan otomatis.</p>
 
     <div class="set-row">
-      <div><b>Mode Gelap</b><small>Dark / Light theme</small></div>
-      <div class="switch" id="swDark" onclick="toggleThemeFromSetting(this)"></div>
+      <div><b>Mode Gelap</b><small>Dark / Light mode</small></div>
+      <div class="switch" id="swDark" onclick="toggleDark()"></div>
     </div>
 
     <div class="set-row">
-      <div><b>Full Screen</b><small>Web jadi full layar, tanpa border HP</small></div>
+      <div><b>Full Screen</b><small>Web jadi full layar penuh</small></div>
       <div class="switch" id="swFull" onclick="toggleFullscreen()"></div>
     </div>
 
     <div class="set-row">
-      <div><b>Langsung Masuk</b><small>Skip splash "Selamat Datang"</small></div>
-      <div class="switch" id="swSkip" onclick="toggleSkipSplash(this)"></div>
+      <div><b>Skip Splash</b><small>Langsung masuk tanpa "Selamat Datang"</small></div>
+      <div class="switch" id="swSkip" onclick="toggleSkip()"></div>
     </div>
 
     <div class="set-row" style="display:block">
-      <b>Ukuran Teks</b><small style="margin-bottom:8px">Kecil / Normal / Besar</small>
-      <div class="seg" id="segFont">
-        <button onclick="setFontSize('small',this)">Kecil</button>
-        <button class="active" onclick="setFontSize('normal',this)">Normal</button>
-        <button onclick="setFontSize('large',this)">Besar</button>
+      <b>Mode Tampilan</b><small style="margin-bottom:8px">Pilih device yang lu pake / mau diliat</small>
+      <div class="seg" id="segDevice">
+        <button onclick="setDevice('iphone',this)">📱 iPhone</button>
+        <button onclick="setDevice('android',this)">🤖 Android</button>
+        <button onclick="setDevice('desktop',this)">💻 Desktop</button>
       </div>
     </div>
 
     <div class="set-row" style="display:block">
       <b>Platform Default</b><small style="margin-bottom:8px">Yang kebuka pertama kali</small>
       <div class="seg" id="segPlat">
-        <button class="active" onclick="setDefaultPlat('tiktok',this)">TikTok</button>
+        <button onclick="setDefaultPlat('tiktok',this)">TikTok</button>
         <button onclick="setDefaultPlat('youtube',this)">YouTube</button>
         <button onclick="setDefaultPlat('instagram',this)">Instagram</button>
       </div>
     </div>
 
-    <button class="danger" onclick="clearAllData()">🗑 Hapus Semua Koleksi Tersimpan</button>
-    <p style="text-align:center;color:var(--muted);font-size:12px;margin-top:16px">Netls v2.0 • Dibuat untuk TikTok • YouTube • Instagram</p>
+    <button class="danger" onclick="clearAllData()">🗑 Hapus Semua Koleksi</button>
+    <p style="text-align:center;color:var(--muted);font-size:12px;margin-top:16px">Netls v2.1 • TikTok • YouTube • Instagram</p>
   </div>
 </div>
 
 <script>
 let platform='tiktok';
-let settings = JSON.parse(localStorage.getItem('netls-settings')||'{"dark":false,"full":false,"skipSplash":false,"font":"normal","defaultPlat":"tiktok"}');
+let settings = JSON.parse(localStorage.getItem('netls-settings')||'{"dark":false,"full":false,"skipSplash":false,"device":"iphone","defaultPlat":"tiktok"}');
 
-// APPLY SETTING SAAT LOAD
 function applySettings(){
   document.getElementById('app').setAttribute('data-theme', settings.dark?'dark':'light');
+  document.body.setAttribute('data-device', settings.device);
+  document.body.classList.toggle('is-full', settings.full);
   document.getElementById('swDark').classList.toggle('on', settings.dark);
   document.getElementById('swFull').classList.toggle('on', settings.full);
   document.getElementById('swSkip').classList.toggle('on', settings.skipSplash);
-  document.body.classList.toggle('is-full', settings.full);
-  if(settings.full) document.getElementById('fsLabel').innerText='⛶ FULL';
-  setFontSize(settings.font, null, true);
+  document.getElementById('fsLabel').innerText = settings.full?'⛶ FULL':'100% ▮';
+  // highlight device
+  document.querySelectorAll('#segDevice button').forEach((b,i)=>{ b.classList.toggle('active', ['iphone','android','desktop'][i]===settings.device) });
+  document.querySelectorAll('#segPlat button').forEach((b,i)=>{ b.classList.toggle('active', ['tiktok','youtube','instagram'][i]===settings.defaultPlat) });
   platform = settings.defaultPlat;
   document.getElementById('platLabel').innerText = platform==='tiktok'?'TikTok':platform==='youtube'?'YouTube':'Instagram';
   document.querySelectorAll('.tab').forEach((t,i)=>{ t.classList.toggle('active', ['tiktok','youtube','instagram'][i]===platform) });
@@ -199,41 +234,15 @@ function applySettings(){
 function saveSettings(){ localStorage.setItem('netls-settings', JSON.stringify(settings)); }
 function enterApp(){ document.getElementById('splash').classList.add('hide'); }
 
-function toggleThemeFromSetting(el){
-  settings.dark=!settings.dark; saveSettings(); applySettings();
-}
+function toggleDark(){ settings.dark=!settings.dark; saveSettings(); applySettings(); }
 function toggleFullscreen(){
   settings.full=!settings.full; saveSettings(); applySettings();
-  // Fullscreen beneran di browser
-  if(settings.full){
-    if(document.documentElement.requestFullscreen) document.documentElement.requestFullscreen().catch(()=>{});
-  } else {
-    if(document.exitFullscreen) document.exitFullscreen().catch(()=>{});
-  }
+  if(settings.full){ if(document.documentElement.requestFullscreen) document.documentElement.requestFullscreen().catch(()=>{}); }
+  else { if(document.exitFullscreen) document.exitFullscreen().catch(()=>{}); }
 }
-function toggleSkipSplash(el){
-  settings.skipSplash=!settings.skipSplash; saveSettings(); applySettings();
-  if(settings.skipSplash) alert('Splash akan di-skip mulai sekarang');
-}
-function setFontSize(size, btn, silent){
-  settings.font=size; if(!silent) saveSettings();
-  const r=document.documentElement;
-  if(size==='small') r.style.setProperty('--fs','14px');
-  else if(size==='large') r.style.setProperty('--fs','18px');
-  else r.style.setProperty('--fs','16px');
-  document.querySelectorAll('#segFont button').forEach(b=>b.classList.remove('active'));
-  if(btn) btn.classList.add('active');
-  else {
-    const idx = size==='small'?0:size==='large'?2:1;
-    document.querySelectorAll('#segFont button')[idx].classList.add('active');
-  }
-}
-function setDefaultPlat(p, btn){
-  settings.defaultPlat=p; saveSettings();
-  document.querySelectorAll('#segPlat button').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  setPlatform(p, document.querySelectorAll('.tab')[['tiktok','youtube','instagram'].indexOf(p)]);
-}
+function toggleSkip(){ settings.skipSplash=!settings.skipSplash; saveSettings(); applySettings(); }
+function setDevice(d, btn){ settings.device=d; saveSettings(); applySettings(); }
+function setDefaultPlat(p, btn){ settings.defaultPlat=p; saveSettings(); applySettings(); }
 
 function openSettings(){ document.getElementById('overlay').classList.add('show'); document.getElementById('sheet').classList.add('show'); }
 function closeSettings(){ document.getElementById('overlay').classList.remove('show'); document.getElementById('sheet').classList.remove('show'); }
@@ -281,4 +290,4 @@ setInterval(()=>{ document.getElementById('clock').innerText = new Date().toLoca
 applySettings(); renderList();
 </script>
 </body>
-        </html>
+</html>
