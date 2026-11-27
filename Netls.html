@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Netls</title>
+<style>
+  :root{ --bg:#f2f2f7; --card:#ffffff; --text:#000; --muted:#8e8e93; --accent:#000; --line:#e5e5ea; }
+  [data-theme="dark"]{ --bg:#000; --card:#1c1c1e; --text:#fff; --muted:#98989f; --accent:#fff; --line:#2c2c2e; }
+  *{box-sizing:border-box; font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",system-ui,sans-serif}
+  body{margin:0;background:#0a0a0a;display:flex;justify-content:center;min-height:100vh}
+  .phone{width:100%;max-width:430px;min-height:100vh;background:var(--bg);color:var(--text);position:relative;overflow:hidden}
+  @media(min-width:500px){ .phone{height:860px;min-height:0;margin:20px 0;border-radius:55px;border:10px solid #111;box-shadow:0 30px 80px rgba(0,0,0,.6)} }
+  .island{width:120px;height:28px;background:#000;border-radius:20px;margin:12px auto 0}
+  .status{display:flex;justify-content:space-between;padding:8px 28px 0;font-size:13px;font-weight:600}
+  .splash{position:absolute;inset:0;background:var(--bg);z-index:20;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px;transition:.5s}
+  .splash.hide{opacity:0;pointer-events:none;transform:scale(1.05)}
+  .logo{width:110px;height:110px;border-radius:28px;background:#000;display:grid;place-items:center;box-shadow:0 15px 30px rgba(0,0,0,.25)}
+  .top{display:flex;justify-content:space-between;align-items:center;padding:18px 20px 5px}
+  .top h1{font-size:28px;margin:0;letter-spacing:-.5px}
+  .icon-btn{width:42px;height:42px;border-radius:50%;background:var(--card);border:1px solid var(--line);display:grid;place-items:center;cursor:pointer}
+  .hero{margin:14px 20px;background:#000;color:#fff;border-radius:24px;padding:20px;position:relative;overflow:hidden}
+  .hero h2{margin:0 0 6px;font-size:22px}
+  .hero p{margin:0;opacity:.7;font-size:14px}
+  .tabs{display:flex;gap:10px;padding:10px 20px}
+  .tab{flex:1;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;text-align:center;cursor:pointer}
+  .tab.active{background:#000;color:#fff}
+  .tab svg{width:28px;height:28px}
+  .tab p{margin:8px 0 0;font-weight:700;font-size:13px}
+  .card{margin:0 20px;background:var(--card);border:1px solid var(--line);border-radius:24px;padding:18px}
+  input{width:100%;padding:14px;border-radius:14px;border:1px solid var(--line);background:var(--bg);color:var(--text);outline:none}
+  .btn{width:100%;margin-top:12px;padding:15px;border:0;border-radius:14px;background:#000;color:#fff;font-weight:700;cursor:pointer}
+  .btn2{display:flex;gap:10px;margin-top:10px}
+  .btn2 button{flex:1;padding:12px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--text);font-weight:600;cursor:pointer}
+  .result{margin:14px 20px;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px;display:none}
+  .home-ind{width:130px;height:5px;background:var(--muted);border-radius:10px;margin:18px auto 10px;opacity:.5}
+  .collection{padding:0 20px}
+  .item{display:flex;gap:10px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px;margin-bottom:10px}
+</style>
+</head>
+<body>
+<div class="phone" id="app" data-theme="light">
+  <div class="island"></div>
+  <div class="status"><span id="clock">19:27</span><span>Netls • 5G</span><span>100% ▮</span></div>
+
+  <!-- SPLASH -->
+  <div class="splash" id="splash">
+    <div class="logo">
+      <svg width="58" height="58" viewBox="0 0 24 24" fill="white"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+    </div>
+    <h1 style="font-size:32px;margin:20px 0 8px">Netls</h1>
+    <p style="color:var(--muted)">selamat datang di website Netls</p>
+    <p style="font-size:14px;line-height:1.5;color:var(--muted)">Kelola link TikTok, YouTube & Instagram kamu<br>dengan tampilan iPhone yang clean.</p>
+    <button onclick="enterApp()" style="margin-top:24px;width:100%;padding:16px;border-radius:16px;background:#000;color:#fff;font-weight:800;border:0;cursor:pointer">Lanjut ke Halaman →</button>
+    <p style="font-size:12px;color:var(--muted)">v1.0 • Dibuat untuk iPhone, Android & Desktop</p>
+  </div>
+
+  <div class="top">
+    <h1>Netls</h1>
+    <div style="display:flex;gap:8px">
+      <div class="icon-btn" onclick="toggleTheme()" title="Dark / Light">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </div>
+      <div class="icon-btn" onclick="shareApp()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero">
+    <h2>Simpan Link<br>Favorit Kamu</h2>
+    <p>Tempel link, Netls akan deteksi otomatis.</p>
+    <svg style="position:absolute;right:-10px;bottom:-10px;opacity:.2" width="110" height="110" viewBox="0 0 24 24" fill="white"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" onclick="setPlatform('tiktok',this)">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
+      <p>TikTok</p>
+    </div>
+    <div class="tab" onclick="setPlatform('youtube',this)">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.19a3.02 3.02 0 0 0-2.12-2.14C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.5A3.02 3.02 0 0 0 .5 6.19C0 8.07 0 12 0 12s0 3.93.5 5.81a3.02 3.02 0 0 0 2.12 2.14c1.88.5 9.38.5 9.38.5s7.5 0 9.38-.5a3.02 3.02 0 0 0 2.12-2.14C24 15.93 24 12 24 12s0-3.93-.5-5.81zM9.55 15.57V8.43L15.82 12l-6.27 3.57z"/></svg>
+      <p>YouTube</p>
+    </div>
+    <div class="tab" onclick="setPlatform('instagram',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+      <p>Instagram</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <label style="font-weight:700;font-size:14px">Tempel Link <span id="platLabel">TikTok</span></label>
+    <input id="linkInput" placeholder="https://..." oninput="detectLink(this.value)">
+    <button class="btn" onclick="processLink()">Proses Link →</button>
+    <div class="btn2">
+      <button onclick="pasteLink()">📋 Paste</button>
+      <button onclick="clearLink()">Hapus</button>
+    </div>
+  </div>
+
+  <div class="result" id="result"></div>
+
+  <h3 style="padding:0 20px">Koleksi Tersimpan</h3>
+  <div class="collection" id="list"></div>
+
+  <div class="home-ind"></div>
+</div>
+
+<script>
+let platform='tiktok';
+function enterApp(){ document.getElementById('splash').classList.add('hide'); }
+function toggleTheme(){
+  const app=document.getElementById('app');
+  const cur=app.getAttribute('data-theme');
+  app.setAttribute('data-theme', cur==='light'?'dark':'light');
+  localStorage.setItem('netls-theme', app.getAttribute('data-theme'));
+}
+if(localStorage.getItem('netls-theme')) document.getElementById('app').setAttribute('data-theme', localStorage.getItem('netls-theme'));
+function setPlatform(p,el){
+  platform=p;
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('platLabel').innerText = p==='tiktok'?'TikTok':p==='youtube'?'YouTube':'Instagram';
+}
+function detectLink(v){
+  if(v.includes('tiktok.com')) setPlatform('tiktok', document.querySelectorAll('.tab')[0]);
+  else if(v.includes('youtube.com')||v.includes('youtu.be')) setPlatform('youtube', document.querySelectorAll('.tab')[1]);
+  else if(v.includes('instagram.com')) setPlatform('instagram', document.querySelectorAll('.tab')[2]);
+}
+async function pasteLink(){ try{ document.getElementById('linkInput').value = await navigator.clipboard.readText(); }catch(e){ alert('Izinkan akses clipboard dulu'); } }
+function clearLink(){ document.getElementById('linkInput').value=''; document.getElementById('result').style.display='none'; }
+function processLink(){
+  const url=document.getElementById('linkInput').value.trim();
+  if(!url) return alert('Tempel link dulu');
+  const res=document.getElementById('result');
+  res.style.display='block';
+  res.innerHTML = `<b>Platform: ${platform.toUpperCase()}</b><p style="color:var(--muted);word-break:break-all">${url}</p>
+  <div class="btn2"><button onclick="window.open('${url}','_blank')">Buka di App Resmi ↗</button><button onclick="navigator.clipboard.writeText('${url}');alert('Tersalin!')">Copy Link</button></div>
+  <button class="btn" onclick="saveLink()">+ Simpan ke Koleksi</button>`;
+}
+function saveLink(){
+  const url=document.getElementById('linkInput').value;
+  let data=JSON.parse(localStorage.getItem('netls-links')||'[]');
+  data.unshift({platform, url, date:new Date().toLocaleString('id-ID')});
+  localStorage.setItem('netls-links', JSON.stringify(data));
+  renderList(); alert('Disimpan!');
+}
+function renderList(){
+  let data=JSON.parse(localStorage.getItem('netls-links')||'[]');
+  document.getElementById('list').innerHTML = data.length? data.map((x,i)=>`<div class="item"><div style="flex:1"><b>${x.platform}</b><div style="font-size:12px;color:var(--muted);word-break:break-all">${x.url}</div><small>${x.date}</small></div><button onclick="delItem(${i})">✕</button></div>`).join('') : '<p style="color:var(--muted)">Belum ada koleksi.</p>';
+}
+function delItem(i){ let d=JSON.parse(localStorage.getItem('netls-links')||'[]'); d.splice(i,1); localStorage.setItem('netls-links', JSON.stringify(d)); renderList(); }
+function shareApp(){ if(navigator.share) navigator.share({title:'Netls', url:location.href}); else alert('Copy link web ini untuk share'); }
+setInterval(()=>{ document.getElementById('clock').innerText = new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'}); },1000);
+renderList();
+</script>
+</body>
+  </html>
